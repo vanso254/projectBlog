@@ -8,8 +8,8 @@ router.get('/',(req,res)=>{
     res.render('index.ejs')
 })
 
-router.get('/form',(req,res)=>{
-    res.render('form.ejs')
+router.get('/editor',(req,res)=>{
+    res.render('editor.ejs')
 })
 
 // Set storage engine using multer
@@ -28,6 +28,7 @@ const storage = multer.diskStorage({
   // Init upload
 const upload = multer({ storage: storage });
 
+//Adding a new article
 router.post('/newArticle', upload.single('file'), async (req, res) => {
   try {
     const newImgName = req.file.filename
@@ -42,6 +43,7 @@ router.post('/newArticle', upload.single('file'), async (req, res) => {
     
     await article.save()
     res.redirect('/')
+    console.log(article)
   } catch (error) {
     console.log(error)
     res.send('Error uploading file')

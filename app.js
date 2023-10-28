@@ -14,7 +14,7 @@ app.use(express.urlencoded({extended:false}))
 
 //Adding a public folder
 app.set(express.static(path.join(__dirname, 'public')))
-app.use('/src', express.static(path.resolve(__dirname, 'public')))
+app.use('/assets', express.static(path.resolve(__dirname, 'public/assets')))
 
 //Setting up the router
 app.use('/', blogRouter)

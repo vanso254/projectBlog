@@ -1,0 +1,7 @@
+#editor{
+   display: grid;
+   height: 50vh;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: 0.2fr 0.2fr 0.2fr 0.2fr;
+   grid-area: author--name author--name post--btn post--btn;
+}
