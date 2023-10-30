@@ -1,7 +1,34 @@
-#editor{
-   display: grid;
-   height: 50vh;
-   grid-template-columns: 1fr 1fr 1fr 1fr;
-   grid-template-rows: 0.2fr 0.2fr 0.2fr 0.2fr;
-   grid-area: author--name author--name post--btn post--btn;
+/* Editor page */
+form>.header{
+   display: flex;
+   justify-content: space-between;
+}
+form>.article--title{
+   margin: auto;
+  width: 50%;
+  /* border: 3px solid green; */
+  padding: 10px;
+}
+form>.image--selector{
+   display: flex;
+   margin: auto;
+   width: 50%;
+   /* border: 3px solid green; */
+   padding: 10px;
+}
+.image--caption{
+   max-height: 100px; /* Adjust the maximum height as needed */
+   overflow-y: auto;
+}
+.caption--holder{
+   width: 50vh;
+}
+.tag--input{
+  width: 20vh;
+}
+.description--holder{
+   padding-bottom: 8px;
+}
+.description{
+   height: 20vh;
 }

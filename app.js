@@ -16,6 +16,9 @@ app.use(express.urlencoded({extended:false}))
 app.set(express.static(path.join(__dirname, 'public')))
 app.use('/assets', express.static(path.resolve(__dirname, 'public/assets')))
 
+//Adding the Froala path for css and js
+app.use('/froalacss',express.static(__dirname+'/node_modules/froala-editor/css/froala_editor.css'))
+app.use('/froalajs',express.static(__dirname+'/node_modules/froala-editor/js/froala_editor.min.js'))
 //Setting up the router
 app.use('/', blogRouter)
 

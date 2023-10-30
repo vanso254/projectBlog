@@ -3,47 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+
+<!-- Froala plugins -->
+<script src=" https://cdn.jsdelivr.net/npm/froala-editor@latest/js/plugins/table.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/froala-editor@latest/css/plugins/table.min.css">
+<script src = "node_modules/@wiris/mathtype-froala3/wiris.js"></script>
+<!-- End Plugin -->
+    <link rel="stylesheet" href="/froalacss">
    <link rel="stylesheet" href="./assets/style.css">
-    <title>form</title>
+    <title>Editor</title>
 </head>
 <body>
-    <h1>Our Form</h1>
-    <form action="/newArticle" id="editor" method="post" enctype="multipart/form-data">        
 
-        <div class="author--name">
+    <form action="/newArticle" class="editor container" method="post" enctype="multipart/form-data">
+        
+       <div class="header mt-3">
+        <div id="author--name">
             <label for="author">Author</label>
             <input type="text" name="author">
         </div>
+      
+        <button type="submit" class="btn btn-outline-success btn-lg">POST</button>
+       </div>
 
-        <div class="post--btn">
-            <button type="submit">POST</button>
-        </div>
-        <div class="article--title">
-            <label for="title">Title</label>
-            <input type="text" name="title">
-        </div>
-
-        <div class="image--selector">
+       <div class="article--title form-floating mb-1">
+            <input name="title" type="text" class="form-control" id="floatingInput" placeholder="Title">
+            <label for="floatingInput">Title</label>
+      </div>
+    
+    <div class="image--selector">
+        <div class="image">
             <label for="image">Image</label>
             <input type="file" name="file">
-        </div>       
-
-        <div class="tag--input">
-            <label for="tag">Tag</label>
-            <input type="text" name="tag">
         </div>
-
-        <div class="description">
-            <label for="description">Description</label>
-           <textarea name="description"></textarea>
-        </div>
-
-        <div class="markdown">
-            <label for="markdown">Markdown</label>
-            <textarea name="markdown"></textarea>
-        </div>
+          
+        <div class="caption form-floating">
+            <textarea class=" caption--holder form-control" placeholder="caption" id="floatingTextarea" name="caption"></textarea>
+            <label for="floatingTextarea">Caption</label>
+          </div>
         
+    </div>
+    <div class="form-floating" class="description--holder">
+        <textarea name="description" class="form-control description" id="floatingTextarea"></textarea>
+        <label for="floatingTextarea">Description</label>
+      </div>
+   
+    <div class="markdown mt-3">
+        <label for="markdown">Markdown</label>
+        <textarea name="markdown" id="editor"></textarea>
+    </div>
+    <div class="form-floating mb-3 mt-3">
+        <input name="tag" type="text" class="form-control tag--input" id="floatingInput" placeholder="#Tag">
+        <label for="floatingInput">Tag</label>
+      </div>     
        
-    </form>    
+    </form> 
+  
+    <script src="/froalajs"></script>
+   <script src="./assets/FroalaEditor.js"></script>
 </body>
 </html>
