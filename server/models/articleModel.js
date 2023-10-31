@@ -21,6 +21,10 @@ var articleSchema=new mongoose.Schema({
     type:String,
     required:true
    },
+   imageCaption:{
+      type:String,
+      required:true
+   },
    markdown:{
     type:String,
     required:true
