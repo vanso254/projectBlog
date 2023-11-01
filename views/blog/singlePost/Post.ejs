@@ -1,0 +1,38 @@
+<% if (article) { %>
+<!-- Page Header -->
+<header class="page-header page-header-mini">
+  <h1 class="title"><%= article.title %></h1>
+  <ol class="breadcrumb pb-0">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><%= article.title %></li>
+  </ol>
+</header>
+<!-- End Of Page Header -->
+
+<section class="container">
+  <div class="page-container">
+    <div class="page-content">
+      <div class="card">
+        <div class="card-header pt-0">
+          <h3 class="card-title mb-4"><%= article.title %></h3>
+          <div class="blog-media mb-4">
+            <img src="uploads/<%= article.imageName %>" alt="" class="w-100">
+            <a href="#" class="badge badge-primary"><%= article.tag %></a>
+          </div>
+          <small class="small text-muted">
+            <a href="#" class="text-muted">By <%= article.author %></a>
+            <span class="px-2">·</span>
+            <span><%= article.datePosted.toDateString() %></span>
+            <span class="px-2">·</span>
+            <a href="#" class="text-muted">32 Comments</a>
+          </small>
+        </div>
+        <div class="card-body border-top">
+            <%= article.markdown %>
+         
+        </div>
+        <% } else { %>
+            <div class="alert alert-danger" role="alert">
+                A simple danger alert—check it out!
+              </div>
+        <% } %>

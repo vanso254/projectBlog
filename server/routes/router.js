@@ -20,6 +20,21 @@ router.get('/',async (req,res)=>{
     }
 })
 
-
+//Since slugify Is Installed  I want to get a single Page
+router.get('/:slug', async(req,res)=>{
+    try {
+        const slug = req.params.slug;
+        const article = await Article.findOne({ slug: slug });
+    
+        if (!article) {
+          return res.status(404).json({ message: 'Article not found' });
+        }
+    
+        res.render('blog/singlePost/single-Post.ejs',{article:article})
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+})
 
 module.exports=router
