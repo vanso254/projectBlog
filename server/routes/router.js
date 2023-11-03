@@ -1,8 +1,15 @@
 const express=require("express")
+const passport = require('passport')
 const router=express.Router()
 const Article=require("../models/articleModel.js")
+require("../services/googleAuth2.js")
 
-router.get('/',async (req,res)=>{
+function isLoggedIn(req, res, next) {
+  req.user ? next() : res.sendStatus(401);
+}
+
+
+router.get('/',isLoggedIn, async (req,res)=>{
     // latest article
     try {
         const latestArticle = await Article
@@ -36,5 +43,26 @@ router.get('/:slug', async(req,res)=>{
         res.status(500).json({ message: 'Internal Server Error' });
       }
 })
+
+//The google Oauth Routes
+router.get('/auth/google',passport.authenticate('oauth2'))
+
+router.get( '/auth/google/callback',
+  passport.authenticate( 'oauth2', {
+    successRedirect: '/', //The protected route
+    failureRedirect: '/auth/google/failure'
+  })
+)
+
+router.get('/auth/google/failure', (req, res) => {
+  res.send('Failed to authenticate..')
+})
+
+router.get('/logout', (req, res) => {
+  req.logout()
+  req.session.destroy()
+
+})
+
 
 module.exports=router

@@ -1,9 +1,32 @@
 const express=require('express')
+const session = require('express-session')
 const path=require('path')
 const mongoose=require('mongoose')
+const passport=require('passport')
 const blogRouter=require('./server/routes/router.js')
 const adminRouter=require('./server/routes/adminRouter.js')
 const app=express()
+
+const crypto = require('crypto');
+const secret = crypto.randomBytes(32).toString('hex'); // Generate a strong random secret
+
+
+app.use(
+  session({
+    secret: secret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: true, // Ensure cookies are only transmitted over HTTPS
+      httpOnly: true, // Prevent client-side JavaScript access
+      maxAge: 20*3600000, // Session expires after 20 hour (adjust as needed)
+      sameSite: 'strict', // Helps protect against Cross-Site Request Forgery (CSRF) attacks
+    },
+  })
+)
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 //connecting the database
 mongoose.connect('mongodb://127.0.0.1:27017/freeLanceBlog_DB',{
