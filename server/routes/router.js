@@ -1,8 +1,48 @@
 const express=require("express")
 const router=express.Router()
+const passport=require('passport')
 const Article=require("../models/articleModel.js")
+const User = require('../models/userModel.js')
+require('../services/passport-config')
 
-router.get('/',async (req,res)=>{
+function checkAuthenticated(req, res, next) {
+    console.log('Check Authenticated Middleware - Start');
+    
+    // Check if the user is authenticated
+    if (req.isAuthenticated()) {
+        console.log('User is authenticated. Proceeding to the next middleware/route.');
+        // If the user is authenticated, continue with the call to next
+        return next();
+    }
+    
+    console.log('User is not authenticated. Redirecting to the login page.');
+    // If the user is not authenticated, redirect to the login page
+    res.redirect('/login');
+    
+    console.log('Check Authenticated Middleware - End');
+}
+
+
+// Function to prevent the user from going back to the login page after logging in
+function checkNotAuthenticated(req, res, next) {
+    console.log('Check Not Authenticated Middleware - Start');
+    
+    // Check if the user is authenticated
+    if (req.isAuthenticated()) {
+        console.log('User is authenticated. Redirecting to /page.');
+        // If the user is authenticated, redirect to the /page route
+        return res.redirect('/page');
+    }
+    
+    console.log('User is not authenticated. Proceeding to the next middleware/route.');
+    // If the user is not authenticated, continue with the call to next
+    next();
+
+    console.log('Check Not Authenticated Middleware - End');
+}
+
+
+router.get('/page',checkAuthenticated,async (req,res)=>{
     // latest article
     try {
         const latestArticle = await Article
@@ -21,7 +61,7 @@ router.get('/',async (req,res)=>{
 })
 
 //Since slugify Is Installed  I want to get a single Page
-router.get('/:slug', async(req,res)=>{
+router.get('/page/:slug',checkAuthenticated, async(req,res)=>{
     try {
         const slug = req.params.slug;
         const article = await Article.findOne({ slug: slug });
@@ -36,5 +76,46 @@ router.get('/:slug', async(req,res)=>{
         res.status(500).json({ message: 'Internal Server Error' });
       }
 })
+
+//Registration Route
+router.get('/register', (req, res) => {
+    res.render('forms/user/register.ejs',{ messages: req.flash('regError') })
+})
+
+
+router.post('/register', async (req, res) => {
+    const newUser = new User({
+        fullName: req.body.fullName,
+        email: req.body.email,
+        password: req.body.password
+    });
+
+    try {
+        const user = await newUser.save();
+        console.log(user);
+        res.redirect('/login');
+    } catch (err) {
+        console.error(err)
+        let regError=err
+        req.flash('regError', regError)
+        res.redirect("/register")
+    }
+})
+
+
+//Setting up the Login Route
+router.get('/login',checkNotAuthenticated,(req, res) => {
+    res.render('forms/user/login.ejs',{ messages: req.flash('loginErr') })
+})
+
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/page',
+    failureRedirect: '/login',
+    failureFlash: true
+  }), checkNotAuthenticated)
+  
+
+
+
 
 module.exports=router
