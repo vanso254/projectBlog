@@ -3,44 +3,30 @@ const router=express.Router()
 const passport=require('passport')
 const Article=require("../models/articleModel.js")
 const User = require('../models/userModel.js')
-require('../services/passport-config')
+const initializePassport= require('../services/passport-config')
 
-function checkAuthenticated(req, res, next) {
-    console.log('Check Authenticated Middleware - Start');
-    
-    // Check if the user is authenticated
-    if (req.isAuthenticated()) {
-        console.log('User is authenticated. Proceeding to the next middleware/route.');
-        // If the user is authenticated, continue with the call to next
-        return next();
+// Initialize Passport with Mongoose for user lookup
+initializePassport(
+  passport,
+  async (email) => {
+    try {
+      const user = await User.findOne({ email });
+      return user;
+    } catch (err) {
+      // Handle errors appropriately
+      return null;
     }
-    
-    console.log('User is not authenticated. Redirecting to the login page.');
-    // If the user is not authenticated, redirect to the login page
-    res.redirect('/login');
-    
-    console.log('Check Authenticated Middleware - End');
-}
-
-
-// Function to prevent the user from going back to the login page after logging in
-function checkNotAuthenticated(req, res, next) {
-    console.log('Check Not Authenticated Middleware - Start');
-    
-    // Check if the user is authenticated
-    if (req.isAuthenticated()) {
-        console.log('User is authenticated. Redirecting to /page.');
-        // If the user is authenticated, redirect to the /page route
-        return res.redirect('/page');
+  },
+  async (id) => {
+    try {
+      const user = await User.findById(id);
+      return user;
+    } catch (err) {
+      console.log('There is A problem Finding a User',err)
+      return null;
     }
-    
-    console.log('User is not authenticated. Proceeding to the next middleware/route.');
-    // If the user is not authenticated, continue with the call to next
-    next();
-
-    console.log('Check Not Authenticated Middleware - End');
-}
-
+  }
+)
 
 router.get('/page',checkAuthenticated,async (req,res)=>{
     // latest article
@@ -114,7 +100,41 @@ router.post('/login', passport.authenticate('local', {
     failureFlash: true
   }), checkNotAuthenticated)
   
+  function checkAuthenticated(req, res, next) {
+    console.log('Check Authenticated Middleware - Start');
+    
+    // Check if the user is authenticated
+    if (req.isAuthenticated()) {
+        console.log('User is authenticated. Proceeding to the next middleware/route.');
+        // If the user is authenticated, continue with the call to next
+        return next();
+    }
+    
+    console.log('User is not authenticated. Redirecting to the login page.');
+    // If the user is not authenticated, redirect to the login page
+    res.redirect('/login');
+    
+    console.log('Check Authenticated Middleware - End');
+}
 
+
+// Function to prevent the user from going back to the login page after logging in
+function checkNotAuthenticated(req, res, next) {
+    console.log('Check Not Authenticated Middleware - Start');
+    
+    // Check if the user is authenticated
+    if (req.isAuthenticated()) {
+        console.log('User is authenticated. Redirecting to /page.');
+        // If the user is authenticated, redirect to the /page route
+        return res.redirect('/page');
+    }
+    
+    console.log('User is not authenticated. Proceeding to the next middleware/route.');
+    // If the user is not authenticated, continue with the call to next
+    next();
+
+    console.log('Check Not Authenticated Middleware - End');
+}
 
 
 
