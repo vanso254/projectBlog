@@ -3,7 +3,7 @@
 <header class="page-header page-header-mini">
   <h1 class="title"><%= article.title %></h1>
   <ol class="breadcrumb pb-0">
-    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item"><a href="/pages">Home</a></li>
     <li class="breadcrumb-item active" aria-current="page"><%= article.title %></li>
   </ol>
 </header>
@@ -16,7 +16,7 @@
         <div class="card-header pt-0">
           <h3 class="card-title mb-4"><%= article.title %></h3>
           <div class="blog-media mb-4">
-            <img src="uploads/<%= article.imageName %>" alt="" class="w-100">
+            <img src="../uploads/<%= article.imageName %>" alt="" class="w-100">
             <a href="#" class="badge badge-primary"><%= article.tag %></a>
           </div>
           <small class="small text-muted">

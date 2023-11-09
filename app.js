@@ -1,14 +1,31 @@
 const express=require('express')
 const path=require('path')
 const mongoose=require('mongoose')
+const passport=require('passport')
+const session=require('express-session')
 const blogRouter=require('./server/routes/router.js')
 const adminRouter=require('./server/routes/adminRouter.js')
 const app=express()
+
+const MongoStore = require('connect-mongo')
 
 //connecting the database
 mongoose.connect('mongodb://127.0.0.1:27017/freeLanceBlog_DB',{
     useNewUrlParser: true, useUnifiedTopology: true
 })
+
+app.use(session({
+    //secret: process.env.SECRET,
+    secret: 'some secret',
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({ mongoUrl: 'mongodb://localhost/freeLanceBlog_DB' }),
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 // Equals 1 day (1 day * 24 hr/1 day * 60 min/1 hr * 60 sec/1 min * 1000 ms / 1 sec)
+    }
+}));
+app.use(passport.initialize());
+app.use(passport.session())
 
 //This line enables the use of a form to pass data to the database
 app.use(express.urlencoded({extended:false}))
