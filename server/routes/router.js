@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Article = require("../models/articleModel.js");
 const User = require("../models/userModel");
+const { Comment, Reply } = require('../models/commentsModel');
 const passport = require("passport");
 const crypto = require("crypto");
 const LocalStrategy = require("passport-local").Strategy;
@@ -63,21 +64,31 @@ router.get("/pages",checkAuthenticated, async (req, res) => {
 });
 
 //Since slugify Is Installed  I want to get a single Page
-router.get("/pages/:slug",checkAuthenticated, async (req, res) => {
-  try {
-    const slug = req.params.slug;
-    const article = await Article.findOne({ slug: slug });
+router.get('/pages/:slug', checkAuthenticated, async (req, res) => {
+    try {
+        const slug = req.params.slug;
+        const article = await Article.findOne({ slug: slug });
 
-    if (!article) {
-      return res.status(404).json({ message: "Article not found" });
+        if (!article) {
+            return res.status(404).json({ message: 'Article not found' });
+        }
+
+        // Comments for the article
+        const comments = await Comment.find({ articleID: article._id }).sort({ datePosted: 1 });
+
+        // Replies for the comments
+        const commentIds = comments.map(comment => comment._id);
+        const replies = await Reply.find({ commentID: { $in: commentIds } }).sort({ datePosted: 1 });
+
+        res.render('blog/singlePost/single-Post.ejs', { article, comments, replies });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
+});
 
-    res.render("blog/singlePost/single-Post.ejs", { article: article });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-})
+
+
 
 //Get the Login Form
 router.get("/login",checkNotAuthenticated, (req, res) => {
@@ -116,7 +127,7 @@ router.post("/register",checkNotAuthenticated, (req, res, next) => {
     console.log(user)
   });
 
-  res.redirect("/login")
+  res.redirect("/pages/:slug")
 })
 
 //Middlewares to protect routes

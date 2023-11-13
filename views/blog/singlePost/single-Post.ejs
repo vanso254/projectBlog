@@ -13,10 +13,10 @@
                     <div class="card-footer">
                          <h6 class="mt-5 mb-3 text-center"><a href="#" class="text-dark">Comments 4</a></h6>
                         <hr>
-                        
-                        <div class="media">
+                        <% comments.forEach(function(comment, index) { %>
+                        <div class="media">                           
                             <img src="assets/imgs/avatar-1.jpg" class="mr-3 thumb-sm rounded-circle" alt="...">
-                            <div class="media-body">
+                            <div class="media-body">                        
                                 <h6 class="mt-0">Janice Wilder</h6>
                                 <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.</p>
                                 <a class="text-dark small font-weight-bold" onclick="toggleReplyForm('replyForm1')"><i class="ti-back-right"></i> Reply</a>
@@ -27,6 +27,7 @@
                                     <textarea name="replyMessage" placeholder="Type your reply here"></textarea>
                                     <button class="btn btn-info" type="submit">Send</button>
                                 </form>
+                               
 
                                
                                 <div class="media mt-5">
@@ -40,8 +41,11 @@
 
                                     </div>                                   
                                 </div>
-                               
-                                <form id="replyForm2" class="hidden reply--message">
+                            
+                                <form action="/reply" method="post" id="replyForm2" class="hidden reply--message">
+                                    <input type="hidden" name="articleSlug" value="<%= article.slug %>">
+                                    <input type="hidden" name="articleID" value="<%= comments._id %>">
+                                
                                     <!-- Add your form fields here -->
                                     <textarea name="replyMessage" placeholder="Type your reply here"></textarea>
                                     <button class="btn btn-info" type="submit">Send</button>
@@ -50,27 +54,24 @@
                             </div>
                           
                         </div> 
-
+                        <% }) %>
                        
 
                         <h6 class="mt-5 mb-3 text-center"><a href="#" class="text-dark">Write Your Comment</a></h6>
                         <hr>
-                        <form>
+            
+                        <form action="/comment" method="post" >
+                            <input type="hidden" name="articleSlug" value="<%= article.slug %>">
+                            <input type="hidden" name="articleID" value="<%= article._id %>">
+                           
+
                             <div class="form-row">
                                 <div class="col-12 form-group">
-                                    <textarea name="" id="" cols="30" rows="10" class="form-control" placeholder="Enter Your Comment Here"></textarea>
-                                </div>
-                                <div class="col-sm-4 form-group">
-                                    <input type="text" class="form-control" value="Name">
-                                </div>
-                                <div class="col-sm-4 form-group">
-                                    <input type="email" class="form-control" placeholder="Email">
-                                </div>
-                                <div class="col-sm-4 form-group">
-                                    <input type="url" class="form-control" placeholder="Website">
-                                </div>
+                                    <textarea name="comment" id="" cols="30" rows="10" class="form-control" placeholder="Enter Your Comment Here"></textarea>
+                                </div>                             
+                               
                                 <div class="form-group col-12">
-                                    <button class="btn btn-primary btn-block">Post Comment</button>
+                                    <button type="submit" class="btn btn-primary btn-block">Post Comment</button>
                                 </div>
                             </div>
                         </form>

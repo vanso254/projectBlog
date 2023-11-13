@@ -5,6 +5,7 @@ const passport=require('passport')
 const session=require('express-session')
 const blogRouter=require('./server/routes/router.js')
 const adminRouter=require('./server/routes/adminRouter.js')
+const commentRouter=require('./server/routes/commentsRouter.js')
 const app=express()
 
 const MongoStore = require('connect-mongo')
@@ -40,7 +41,7 @@ app.use('/froalacss',express.static(__dirname+'/node_modules/froala-editor/css/f
 app.use('/froalajs',express.static(__dirname+'/node_modules/froala-editor/js/froala_editor.min.js'))
 
 //Setting up the router
-app.use('/', blogRouter)
+app.use('/', blogRouter,commentRouter)
 app.use('/admin',adminRouter)
 
 app.listen(4000)
