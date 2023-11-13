@@ -518,6 +518,28 @@ code {
   color: #e83e8c;
   word-break: break-word;
 }
+/* Style for Comment section */
+.reply--message{
+  display: flex;
+  row-gap: 15px;
+}
+.reply--message>textarea{
+  min-width: 70%;
+  height: 3em;
+  border-radius: 18px; 
+  padding: 10px;  
+}
+.reply--message>button{
+ height: 3em;
+ min-width: 5em;
+ width: 6em;
+  margin-left: 8px;
+  border-radius: 25px;
+}
+.hidden {
+display: none;
+}
+/* End style for Comment Section */
 
 a > code {
   color: inherit;

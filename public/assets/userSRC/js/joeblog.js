@@ -30,3 +30,9 @@ $(document).ready(function(){
         } 
     });
 });
+
+//The Reply Section Toggling
+function toggleReplyForm(formId) {
+    var form = document.getElementById(formId);
+    form.classList.toggle('hidden');
+};
