@@ -13,24 +13,24 @@
                     <div class="card-footer">
                          <h6 class="mt-5 mb-3 text-center"><a href="#" class="text-dark">Comments 4</a></h6>
                         <hr>
-                        <% comments.forEach(function(comment, index) { %>
-                        <div class="media">                           
+                       <% comments.forEach(function(comment, index) { %>
+                        <div class="media comment--container">                           
                             <img src="assets/imgs/avatar-1.jpg" class="mr-3 thumb-sm rounded-circle" alt="...">
                             <div class="media-body">                        
                                 <h6 class="mt-0">Janice Wilder</h6>
-                                <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.</p>
-                                <a class="text-dark small font-weight-bold" onclick="toggleReplyForm('replyForm1')"><i class="ti-back-right"></i> Reply</a>
+                                <p><%= comment.comment %></p>
+                                <a class="text-dark small font-weight-bold" onclick="toggleReplyForm('<%= comment._id %>')"><i class="ti-back-right"></i> Reply</a>
                                 
 
-                                <form id="replyForm1" class="hidden reply--message">
-                                    <!-- Add your form fields here, e.g., textarea for the reply message -->
+                                <form id="<%= comment._id %>" class="hidden reply--message">                                    
                                     <textarea name="replyMessage" placeholder="Type your reply here"></textarea>
                                     <button class="btn btn-info" type="submit">Send</button>
                                 </form>
                                
-
-                               
-                                <div class="media mt-5">
+<!-- The Replies For the Comments -->
+                                <% const commentReplies = replies.filter(reply => reply.commentID.equals(comment._id)); %>
+                                    <% commentReplies.forEach(reply => { %>
+                                <div class="media mt-3">
                                     <a class="mr-3" href="#">
                                     <img src="assets/imgs/avatar.jpg" class="thumb-sm rounded-circle" alt="...">
                                     </a>
@@ -41,6 +41,8 @@
 
                                     </div>                                   
                                 </div>
+                                <% }); %>
+                                <!-- End Reply -->
                             
                                 <form action="/reply" method="post" id="replyForm2" class="hidden reply--message">
                                     <input type="hidden" name="articleSlug" value="<%= article.slug %>">
@@ -52,9 +54,9 @@
                                 </form>
                                                              
                             </div>
-                          
+                            
                         </div> 
-                        <% }) %>
+                      <% }) %>
                        
 
                         <h6 class="mt-5 mb-3 text-center"><a href="#" class="text-dark">Write Your Comment</a></h6>

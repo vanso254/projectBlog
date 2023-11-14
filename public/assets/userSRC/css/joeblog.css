@@ -539,6 +539,9 @@ code {
 .hidden {
 display: none;
 }
+.comment--container{
+  margin-bottom: 5em;
+}
 /* End style for Comment Section */
 
 a > code {
