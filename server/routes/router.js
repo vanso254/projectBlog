@@ -74,13 +74,15 @@ router.get('/pages/:slug', checkAuthenticated, async (req, res) => {
         }
 
         // Comments for the article
-        const comments = await Comment.find({ articleID: article._id }).sort({ datePosted: 1 });
+        const comments = await Comment.find({ articleID: article._id }).populate('authorID').sort({ datePosted: 1 });
 
         // Replies for the comments
         const commentIds = comments.map(comment => comment._id);
-        const replies = await Reply.find({ commentID: { $in: commentIds } }).sort({ datePosted: 1 });
+        const replies = await Reply.find({ commentID: { $in: commentIds } }).populate('authorID').sort({ datePosted: 1 });
 
-        res.render('blog/singlePost/single-Post.ejs', { article, comments, replies });
+          // Calculate the total comment count per article
+          const totalCommentCounts = calculateTotalCommentCounts(comments, replies);
+        res.render('blog/singlePost/single-Post.ejs', { article, comments, replies,totalCommentCounts});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Internal Server Error' });
@@ -129,6 +131,36 @@ router.post("/register",checkNotAuthenticated, (req, res, next) => {
 
   res.redirect("/pages/:slug")
 })
+// Count the total number of comments and replies per article
+function calculateTotalCommentCounts(comments, replies) {
+  const totalCommentCounts = {};
+
+  // Count comments per article
+  comments.forEach(comment => {
+    const articleId = comment.articleID.toString();
+
+    if (!totalCommentCounts[articleId]) {
+      totalCommentCounts[articleId] = 0;
+    }
+
+    totalCommentCounts[articleId]++;
+  });
+
+  // Count replies per comment and add to the total
+  replies.forEach(reply => {
+    const commentId = reply.commentID.toString();
+    const articleId = comments.find(comment => comment._id.toString() === commentId)?.articleID.toString();
+
+    if (articleId && totalCommentCounts[articleId]) {
+      totalCommentCounts[articleId]++;
+    }
+  });
+
+  // Sum up the total comment counts
+  const total = Object.values(totalCommentCounts).reduce((acc, count) => acc + count, 0);
+
+  return total;
+}
 
 //Middlewares to protect routes
 function checkAuthenticated(req, res, next) {

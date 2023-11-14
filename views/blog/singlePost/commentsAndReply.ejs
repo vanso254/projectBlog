@@ -1,0 +1,70 @@
+<% comments.forEach(function(comment, index) { %>
+    <div class="media comment--container">                           
+        <img src="https://api.dicebear.com/7.x/initials/svg?seed=<%= comment.authorID.fullName %>" class="mr-3 thumb-sm rounded-circle" alt="...">
+        <div class="media-body">                        
+            <h6 class="mt-0"><%= comment.authorID.fullName %></h6>
+            <p><%= comment.comment %></p>
+            <a class="text-dark small font-weight-bold" onclick="toggleReplyForm('<%= comment._id %>')"><i class="ti-back-right"></i> Reply</a>
+            
+
+            <form action="/reply" method="post" id="<%= comment._id %>" class="hidden reply--message">                                    
+                <input type="hidden" name="articleSlug" value="<%= article.slug %>">
+                <input type="hidden" name="commentID" value="<%= comment._id %>">
+            
+                <!-- Add your form fields here -->
+                <textarea name="replyMessage" placeholder="Type your reply here"></textarea>
+                <button class="btn btn-info" type="submit">Send</button>
+            </form>
+           
+                    <!-- The Replies For the Comments -->
+            <% const commentReplies = replies.filter(reply => reply.commentID.equals(comment._id)); %>
+                <% commentReplies.forEach(reply => { %>
+            <div class="media mt-3">
+                <a class="mr-3" href="#">
+                <img src="https://api.dicebear.com/7.x/initials/svg?seed=<%= reply.authorID.fullName %>" class="thumb-sm rounded-circle" alt="...">
+                </a>
+                <div class="media-body align-items-center">
+                    <h6 class="mt-0"><%= reply.authorID.fullName %></h6>
+                    <p><%= reply.Reply %></p>
+                    <a class="text-dark small font-weight-bold" onclick="toggleReplyForm('<%= reply._id %>')"><i class="ti-back-right"></i> Reply</a>
+
+                </div>                                   
+            </div>                                
+        
+            <form action="/reply" method="post" id="<%= reply._id %>" class="hidden reply--message">
+                <input type="hidden" name="articleSlug" value="<%= article.slug %>">
+                <input type="hidden" name="commentID" value="<%= comment._id %>">
+            
+                <!-- Add your form fields here -->
+                <textarea name="replyMessage" placeholder="Type your reply here"></textarea>
+                <button class="btn btn-info" type="submit">Send</button>
+            </form>
+            <% }); %>
+            <!-- End Reply -->
+                                         
+        </div>
+        
+    </div> 
+  <% }) %>
+   
+
+    <h6 class="mt-5 mb-3 text-center"><a href="#" class="text-dark">Write Your Comment</a></h6>
+    <hr>
+
+    <form action="/comment" method="post" >
+        <input type="hidden" name="articleSlug" value="<%= article.slug %>">
+        <input type="hidden" name="articleID" value="<%= article._id %>">
+       
+
+        <div class="form-row">
+            <div class="col-12 form-group">
+                <textarea name="comment" id="" cols="30" rows="10" class="form-control" placeholder="Enter Your Comment Here"></textarea>
+            </div>                             
+           
+            <div class="form-group col-12">
+                <button type="submit" class="btn btn-primary btn-block">Post Comment</button>
+            </div>
+        </div>
+    </form>
+</div>                  
+</div> 

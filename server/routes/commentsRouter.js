@@ -32,12 +32,12 @@ router.post("/comment", async (req, res) => {
 router.post('/reply',async(req,res)=>{
     try {
         if (req.isAuthenticated()) {
-          const { commentID, reply } = req.body;
+          const { commentID, replyMessage, } = req.body;
           const userID = req.user.id;
     
           const newReply = new Reply({
             commentID,
-            reply,
+            Reply:replyMessage,
             datePosted: Date.now(),
             authorID: userID,
           });

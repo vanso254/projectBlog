@@ -14,8 +14,9 @@ var commentSchema=new mongoose.Schema({
         required:true
     },
     authorID:{
-        type:String,
-        required:true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 })
 
@@ -25,16 +26,18 @@ var replySchema=new mongoose.Schema({
         required:true
     },
     commentID:{
-        type:String,
-        required:true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+        required: true
     },
     datePosted:{
         type:Date,
         required:true
     },
     authorID:{
-        type:String,
-        required:true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 })
 
