@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Article = require("../models/articleModel.js");
-const User = require("../models/userModel");
-const { Comment, Reply } = require('../models/commentsModel');
+const User = require("../models/userModel.js");
+const { Comment, Reply } = require('../models/commentsModel.js');
 const passport = require("passport");
 const crypto = require("crypto");
 const LocalStrategy = require("passport-local").Strategy;
