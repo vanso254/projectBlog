@@ -36,6 +36,10 @@ app.set(express.static(path.join(__dirname, 'public')))
 app.use('/assets', express.static(path.resolve(__dirname, 'public/assets')))
 app.use('/uploads', express.static(path.resolve(__dirname, 'public/uploads')))
 
+// tinyMce editor
+app.use('/tinymce', express.static(path.join(__dirname, 'public/assets')));
+app.use('/tinymceConfig', express.static(path.join(__dirname, 'public/assets/tinyMceEditor.js')));
+
 //Adding the Froala path for css and js
 app.use('/froalacss',express.static(__dirname+'/node_modules/froala-editor/css/froala_editor.css'))
 app.use('/froalajs',express.static(__dirname+'/node_modules/froala-editor/js/froala_editor.min.js'))

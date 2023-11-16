@@ -4,7 +4,15 @@ const Article=require("../models/articleModel.js")
 const router=express.Router()
 
 router.get('/editor',(req,res)=>{
-    res.render('admin/editor.ejs')
+    res.render('admin/dashboard/editor/editor.ejs')
+})
+
+router.get('/login',(req,res)=>{
+  res.render('admin/forms/login.ejs')
+})
+
+router.get('/register',(req,res)=>{
+  res.render('admin/forms/register.ejs')
 })
 
 // Set storage engine using multer

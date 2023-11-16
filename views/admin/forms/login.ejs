@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('./_header.ejs') %>
+  <body>
+    <script src="../assets/js/preloader.js"></script>
+    <div class="body-wrapper">
+      <div class="main-wrapper">
+        <div
+          class="page-wrapper full-page-wrapper d-flex align-items-center justify-content-center"
+        >
+          <main class="auth-page">
+            <div class="mdc-layout-grid">
+              <div class="mdc-layout-grid__inner">
+                <div
+                  class="stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"
+                ></div>
+                <div
+                  class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-6-tablet"
+                >
+                  <div class="mdc-card">
+                    <!-- Login Form  -->
+                    <%- include('./login-body.ejs') %>
+                    <!-- End login Form  -->
+                  </div>
+                </div>
+                <div
+                  class="stretch-card mdc-layout-grid__cell--span-4-desktop mdc-layout-grid__cell--span-1-tablet"
+                ></div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
