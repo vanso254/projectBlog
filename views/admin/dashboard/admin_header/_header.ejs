@@ -1,0 +1,42 @@
+<header class="mdc-top-app-bar">
+    <div class="mdc-top-app-bar__row">
+        <%- include('./top_left.ejs') %>
+        <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end mdc-top-app-bar__section-right">
+            <%- include('./_menu.ejs') %>
+            <div class="divider d-none d-md-block"></div>
+            <%- include('./secondary_menu.ejs') %>
+            <div class="menu-button-container">
+                <button class="mdc-button mdc-menu-button">
+                    <i class="mdi mdi-bell"></i>
+                </button>
+                <%- include('./_notification-menu.ejs') %>
+            </div>
+           <%- include('./_message-menu.ejs') %>
+            <div class="menu-button-container d-none d-md-block">
+                <button class="mdc-button mdc-menu-button">
+                    <i class="mdi mdi-arrow-down-bold-box"></i>
+                </button>
+                <div class="mdc-menu mdc-menu-surface" tabindex="-1">
+                    <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical">
+                        <li class="mdc-list-item" role="menuitem">
+                            <div class="item-thumbnail item-thumbnail-icon-only">
+                                <i class="mdi mdi-lock-outline text-primary"></i>
+                            </div>
+                            <div class="item-content d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="item-subject font-weight-normal">Lock screen</h6>
+                            </div>
+                        </li>
+                        <li class="mdc-list-item" role="menuitem">
+                            <div class="item-thumbnail item-thumbnail-icon-only">
+                                <i class="mdi mdi-logout-variant text-primary"></i>
+                            </div>
+                            <div class="item-content d-flex align-items-start flex-column justify-content-center">
+                                <h6 class="item-subject font-weight-normal">Logout</h6>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include('../headerResource.ejs') %>
+        <title>Dashboard</title>
+    </head>
+    
+<title>Dashboard</title>
+<body>
+    <script src="../assets/adminDashboard/js/preloader.js"></script>
+
+    <div class="body-wrapper">
+        <!-- Sidebar -->
+    <%- include('../sidebar/_sidebar.ejs') %>
+        <!-- End SideBAr -->
+        <div class="main-wrapper mdc-drawer-app-content">
+          
+          <!-- Start of the header -->
+          <%- include('../admin_header/_header.ejs') %>
+          <!-- End Header For The USer or Admin  Details -->
+    
+          <!-- partial -->
+          <div class="page-wrapper mdc-toolbar-fixed-adjust">
+            <main class="content-wrapper"></main>
+            <!-- End Information main -->
+    
+            <!-- partial:partials/_footer.html -->
+            <footer>
+              <div class="mdc-layout-grid">
+                <div class="mdc-layout-grid__inner">
+                  <div class="mdc-layout-grid__cell stretch-card mdc-layout-grid__cell--span-6-desktop">
+                    <span class="text-center text-sm-left d-block d-sm-inline-block tx-14">Copyright ©
+                      <a href="#" target="_blank">Evans Oduor</a>2020</span>
+                  </div>
+                 
+                </div>
+              </div>
+            </footer>
+            <!-- partial -->
+          </div>
+        </div>
+        <!-- End Main Page -->
+        <!-- This is the end of the main page -->
+      </div>
+      <!-- End body Wrapper -->
+      <!-- This is the end of the page -->
+
+</body>
+</html>

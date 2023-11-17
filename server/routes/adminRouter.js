@@ -3,8 +3,17 @@ const multer=require("multer")
 const Article=require("../models/articleModel.js")
 const router=express.Router()
 
+router.get('/',(req,res)=>{
+  res.redirect('/admin/dashboard')
+})
+
+router.get('/dashboard',(req,res)=>{
+  res.render('admin/dashboard/home/_index.ejs')
+})
+
+
 router.get('/editor',(req,res)=>{
-    res.render('admin/dashboard/editor/editor.ejs')
+    res.render('admin/dashboard/editor/_editor.ejs')
 })
 
 router.get('/login',(req,res)=>{
