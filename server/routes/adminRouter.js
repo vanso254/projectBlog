@@ -11,6 +11,9 @@ router.get('/dashboard',(req,res)=>{
   res.render('admin/dashboard/home/_index.ejs')
 })
 
+router.get('/markdown',(req,res)=>{
+  res.render('admin/dashboard/markdown/_markdown.ejs')
+})
 
 router.get('/editor',(req,res)=>{
     res.render('admin/dashboard/editor/_editor.ejs')
