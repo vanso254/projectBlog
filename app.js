@@ -1,30 +1,63 @@
 const express=require('express')
 const path=require('path')
-const mongoose=require('mongoose')
 const passport=require('passport')
 const session=require('express-session')
+const MySQLStore = require('express-mysql-session')(session);
 const blogRouter=require('./server/routes/articleRouter.js')
 const adminRouter=require('./server/routes/adminRouter.js')
 const commentRouter=require('./server/routes/commentsRouter.js')
+const connectToMongoDB = require('./server/database/mongodb')
 const app=express()
-
 const MongoStore = require('connect-mongo')
 
-//connecting the database
-mongoose.connect('mongodb://127.0.0.1:27017/freeLanceBlog_DB',{
-    useNewUrlParser: true, useUnifiedTopology: true
-})
+//connecting the mongoDb database using mongoose library
+connectToMongoDB();
 
-app.use(session({
-    //secret: process.env.SECRET,
-    secret: 'some secret',
+const sessionConfig = {
+    secret: 'secret',
     resave: false,
     saveUninitialized: true,
-    store: MongoStore.create({ mongoUrl: 'mongodb://localhost/freeLanceBlog_DB' }),
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 // Equals 1 day (1 day * 24 hr/1 day * 60 min/1 hr * 60 sec/1 min * 1000 ms / 1 sec)
+        maxAge: 1000 * 60 * 60 * 24,
+    },
+};
+
+const mongoStore = MongoStore.create({ mongoUrl: 'mongodb://localhost/freeLanceBlog_DB'});
+const mysqlStoreOptions = {
+    host: 'localhost',
+    port: 3306,
+    user: 'vansoKenya',
+    password: 'rootme',
+    database: 'adminUsers',
+};
+
+const mysqlStore = new MySQLStore(mysqlStoreOptions);
+
+// Middleware to use MongoDB session store for paths not starting with "/admin"
+app.use((req, res, next) => {
+    if (!req.path.startsWith('/admin')) {
+        sessionConfig.store = mongoStore;
     }
+    next();
+}, session(sessionConfig));
+
+// Middleware to use MySQL session store for paths starting with "/admin"
+app.use('/admin', session({
+    ...sessionConfig,
+    store: mysqlStore,
 }));
+
+// app.use(session({
+//     //secret: process.env.SECRET,
+//     secret: 'some secret',
+//     resave: false,
+//     saveUninitialized: true,
+//     store: MongoStore.create({ mongoUrl: 'mongodb://localhost/freeLanceBlog_DB' }),
+//     cookie: {
+//         maxAge: 1000 * 60 * 60 * 24 // Equals 1 day (1 day * 24 hr/1 day * 60 min/1 hr * 60 sec/1 min * 1000 ms / 1 sec)
+//     }
+// }));
+
 app.use(passport.initialize());
 app.use(passport.session())
 
